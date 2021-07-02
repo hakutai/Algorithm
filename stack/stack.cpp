@@ -141,6 +141,8 @@ typedef struct _Stack {
 		int				idx;
 		_Container		*pCurt;
 
+		if (printData == nullptr) return;
+
 		printf("--- STACK ---\n");
 		if (containers == nullptr)  {
 			printf("   -EMPTY-\n");
