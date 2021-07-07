@@ -15,15 +15,15 @@ typedef struct _Stack {
 	int			sizeData;					// size of pData
 	int			countContainer;				// count of containers
 	int			idxTop,idxBottom;			// Read,Write position 
-	void		(*printData)(const int idx,const void *p);
+	void		(*PrintData)(const int idx,const void *p);
 
 	void		Init(const int _maxContainer, const int _sizeData,
-						void( *_printData)(const int idx, const void *p)) {
+						void( *_PrintData)(const int idx, const void *p)) {
 		maxContainer	= _maxContainer;
 		sizeData   		= _sizeData;
 		containers		= (void **)malloc(maxContainer * sizeof(void *));
 		idxTop = idxBottom = 0;
-		printData		= _printData;
+		PrintData		= _PrintData;
 
 		for (int i = 0; i < maxContainer; i++)
 			containers[i] = nullptr;
@@ -65,9 +65,9 @@ typedef struct _Stack {
 			memcpy(containers[idxBottom],_pData,sizeData);
 			pTmp = containers[idxBottom++];
 		}
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("PUSH");
-			printData(idxBottom - 1,pTmp);
+			PrintData(idxBottom - 1,pTmp);
 			printf("\n");
 		}
 
@@ -88,9 +88,9 @@ typedef struct _Stack {
 
 		if ((idxBottom - idxTop) <= 0) return nullptr;
 		memcpy(_pData,containers[idxTop++],sizeData);
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("POP-FIFO");
-			printData(idxTop - 1,_pData);
+			PrintData(idxTop - 1,_pData);
 			printf("\n");
 		}
 
@@ -101,9 +101,9 @@ typedef struct _Stack {
 	void *PopLIFO(void *_pData) { 
 		if ((idxBottom - idxTop) <= 0) return nullptr;
 		memcpy(_pData,containers[--idxBottom],sizeData);
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("POP-LIFO");
-			printData(idxBottom + 1,_pData);
+			PrintData(idxBottom + 1,_pData);
 			printf("\n");
 		}
 		return _pData;
@@ -111,9 +111,12 @@ typedef struct _Stack {
 
 		//--------- Print Data
 	void PrintStack() {
+
+		if (PrintData == nullptr) return;
+
 		printf("--- STACK ---\n");
 		for (int i = 0; i < maxContainer; i++) {
-			printData(i,containers[i]);
+			PrintData(i,containers[i]);
 			if (i == idxTop) printf(" <-- top");
 			if (i == idxBottom) printf(" <-- bottom");
 			printf("\n");
