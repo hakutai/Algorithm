@@ -16,12 +16,12 @@ typedef struct _Stack {
 	} *containers;
 	int			sizeData;					// size of pData
 	int			countContainer;				// count of containers
-	void		(*printData)(const int idx, const void *p);
+	void		(*PrintData)(const int idx, const void *p);
 
 	void		Init(const int _sizeData,
-					void(*_printData)(const int idx,const void *p)) { 
+					void(*_PrintData)(const int idx,const void *p)) { 
 		sizeData   		= _sizeData;
-		printData		= _printData;
+		PrintData		= _PrintData;
 		countContainer	= 0;	
 		containers		= nullptr;
 	}
@@ -58,9 +58,9 @@ typedef struct _Stack {
 		}
 		countContainer++;
 
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("PUSH");
-			printData(countContainer - 1,_pData);
+			PrintData(countContainer - 1,_pData);
 			printf("\n");
 		}
 		return (_Container *)pTmp;
@@ -98,9 +98,9 @@ typedef struct _Stack {
 		free(pCurt);
 		countContainer--;
 
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("POP-FIFO");
-			printData(countContainer,_pData);
+			PrintData(countContainer,_pData);
 			printf("\n");
 		}
 
@@ -128,9 +128,9 @@ typedef struct _Stack {
 		}
 		countContainer--;
 
-		if (printData != nullptr) {
+		if (PrintData != nullptr) {
 			printf("POP-LIFO");
-			printData(countContainer,_pData);
+			PrintData(countContainer,_pData);
 			printf("\n");
 		}
 
@@ -141,7 +141,7 @@ typedef struct _Stack {
 		int				idx;
 		_Container		*pCurt;
 
-		if (printData == nullptr) return;
+		if (PrintData == nullptr) return;
 
 		printf("--- STACK ---\n");
 		if (containers == nullptr)  {
@@ -150,7 +150,7 @@ typedef struct _Stack {
 			pCurt = containers; 
 			idx = 0;
 			do {
-				printData(idx,pCurt->pData);
+				PrintData(idx,pCurt->pData);
 				printf("\n");
 				idx++;
 				pCurt = pCurt->next;
@@ -174,7 +174,7 @@ void PrintMyData(const int idx, const void *p) {
 		printf("[%d] = null    ",idx);
 	} else {
 		tmp = *(MyData *)p;
-		printf("[%d] = (%d,%f) ",idx,tmp.i1,tmp.d1);
+		printf("[%d] = (%d,%f)(%d,%f) ",idx,tmp.i1,tmp.d1,tmp.i2,tmp.d2);
 	}
 }
 
