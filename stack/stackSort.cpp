@@ -12,16 +12,30 @@ typedef struct _Stack {
 	int			sizeData;					// size of pData
 	int			countContainer;				// count of containers
 
-	void		init(const int _sizeData) { 
+	void		Init(const int _sizeData) { 
 		sizeData   		= _sizeData;
 		countContainer	= 0;	
 		containers		= nullptr;
 	}
 
-	int sizeOf() { return countContainer; }
+	void 	Remove() {
+		_Container	*p,*pNext;
+	
+		if (containers == nullptr) return;
+
+		p = containers;
+		do {
+			pNext = p->next;
+			free(p);
+		} while (pNext != nullptr);
+		countContainer	= 0;	
+		containers = nullptr;
+	}
+
+	int SizeOf() { return countContainer; }
 					
 		//--------- DATA PUSH
-	_Container *push(int _sortKey, void *_pData) { 
+	_Container *Push(int _sortKey, void *_pData) { 
 		_Container	*pTmp,*p;
 
 		pTmp = (_Container *)malloc(sizeof(_Container));
@@ -58,7 +72,7 @@ typedef struct _Stack {
 	}
 
 		//--------- Get index
-	void *get(void *_pData,const int idx) { 
+	void *Get(void *_pData,const int idx) { 
 		int				k;
 		_Container		*p;	
 
@@ -76,7 +90,7 @@ typedef struct _Stack {
 	}
 
 		//--------- First In First Out
-	void *popFIFO(void *_pData) { 
+	void *PopFIFO(void *_pData) { 
 		_Container	*pCurt;
 
 		if (containers == nullptr) return nullptr;
@@ -92,7 +106,7 @@ typedef struct _Stack {
 	}
 
 		//--------- Last In First Out
-	void *popLIFO(void *_pData) { 
+	void *PopLIFO(void *_pData) { 
 		_Container	*pCurt,*pPrev = nullptr;
 
 		if (containers == nullptr) return nullptr;
@@ -128,37 +142,37 @@ int main() {
 	MyData		myPacket;
 /*
 	myDatas = new Stack;
-	myDatas->init(sizeof(MyData));
+	myDatas->Init(sizeof(MyData));
 	myPacket.i1		= 52;
-	myDatas->push((void *)&myPacket);
+	myDatas->Push((void *)&myPacket);
 	myPacket.i1		= 100;
 	myPacket.d1		= 153.35;
-	myDatas->push((void *)&myPacket);
+	myDatas->Push((void *)&myPacket);
 
-	printf("myStruct : %d\n",((MyData *)myDatas->get(&myPacket,0))->i1);
+	printf("myStruct : %d\n",((MyData *)myDatas->Get(&myPacket,0))->i1);
 	printf(" %d --\n",myPacket.i1);
 */	
 
 //	container = new Stack;
 	container = (Stack *)malloc(sizeof(Stack));
-	container->init(sizeof(int));
+	container->Init(sizeof(int));
 
-	i =  10;   container->push(i,(void *)&i);
-	i =  25;   container->push(i,(void *)&i);
-	i = 13;   container->push(i,(void *)&i);
-	i = 999;   container->push(i,(void *)&i);
-	i = 123;   container->push(i,(void *)&i);
-	i = 323;   container->push(i,(void *)&i);
+	i =  10;   container->Push(i,(void *)&i);
+	i =  25;   container->Push(i,(void *)&i);
+	i = 13;   container->Push(i,(void *)&i);
+	i = 999;   container->Push(i,(void *)&i);
+	i = 123;   container->Push(i,(void *)&i);
+	i = 323;   container->Push(i,(void *)&i);
 
-	for (i = 0; i < container->sizeOf(); i++) {
-		container->get((void *)&j,i);
+	for (i = 0; i < container->SizeOf(); i++) {
+		container->Get((void *)&j,i);
 		printf("GET %d - %d\n",i,j);
 	}
 
-	i =  32;  container->push(i,(void *)&i);
+	i =  32;  container->Push(i,(void *)&i);
 
-	while ((k = (int *)container->popLIFO((void *)&j)) != nullptr) {
-		printf("LIFO %d(%d)\n",j,container->sizeOf());
+	while ((k = (int *)container->PopLIFO((void *)&j)) != nullptr) {
+		printf("LIFO %d(%d)\n",j,container->SizeOf());
 	}
 }
 
