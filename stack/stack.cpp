@@ -36,6 +36,7 @@ typedef struct _Stack {
 			pNext = p->next;
 			free(p);
 		} while (pNext != nullptr);
+		countContainer	= 0;	
 		containers = nullptr;
 	}
 
